@@ -1,6 +1,8 @@
 '''
 Author : slayerzeroa
 
+Date : 2021-08-01
+
 대충 EBP 하기 싫어서 만든 프로그램
 
 아주대학교 금융공학과 후배들에게 널리 배포 쌉가능
@@ -48,16 +50,17 @@ for data_text in data: # 반복
   data_text = data_text.get_text() # html 데이터에서 텍스트만 뽑아오기
   data_text_all = data_text_all + data_text # 문자열 추가
 
-news_summarize = summarize(data_text_all, ratio=0.1, word_count = 130) #요약하는 프로그램
+news_summarize = summarize(data_text_all, ratio=0.2, word_count = 350) #요약하는 프로그램
 
 
 request_url = "https://openapi.naver.com/v1/papago/n2mt" #네이버 papago open api 사용
 
-headers = {"X-Naver-Client-Id": "v_xR89ObiErZTqpWcPmJ", "X-Naver-Client-Secret": "fDcBNe2s5W"} # id, secret id
+headers = {"X-Naver-Client-Id": "Q7UvwtjKdBk4K0X_ob36", "X-Naver-Client-Secret": "5l89mtr94u"} # id, secret id
 params = {"source": "en", "target": "ko", "text": news_summarize} # 번역 시작, 끝, 번역할 텍스트
 response = requests.post(request_url, headers=headers, data=params) # 정보 넣어주기
 
 result = response.json() #json 파일 저장
+print(result)
 translate_result = result['message']['result']['translatedText'] #json 파일 키값 빼오기
 
 path = "./" #폴더 위치
