@@ -33,17 +33,18 @@ link_title = {}
 def start():
     # CNN 비즈니스 탭 링크
     main_url = 'https://edition.cnn.com/business'
+    time.sleep(3)
     driver.get(main_url)
     html = driver.page_source
     soup = BS(html, 'html.parser')
-    tags = soup.select('#us-zone-1 > div.l-container > div > div.column.zn__column--idx-1 > ul > li:nth-child(1) > article > div > div.cd__content > h3')[0].find_all('a')
+    tags = soup.select('#us-zone-1 > div.l-container > div > div.column.zn__column--idx-1 > ul > li:nth-of-type(1) > article > div > div.cd__content > h3')[0].find_all('a')
     for tag in tags:
         link_list.append(tag['href'])
         link_title[tag['href']] = tag.text  # 링크-타이틀 매칭
 
     headline_link = 'https://edition.cnn.com'+link_list[0]
-    webpage = requests.get(headline_link)
-    print(webpage)
+
+    webpage = requests.get(headline_link)  # web
     soup = BS(webpage.content, "html.parser")
 
     # CNN 본문내용 html class
@@ -51,6 +52,13 @@ def start():
     data_text_all = ""
 
     title = soup.find("h1", class_="pg-headline")
+
+    if title == None:
+        print('using requests is failed. \n try 2nd')
+        data = soup.find_all(class_="paragraph inline-placeholder")
+        data_text_all = ""
+        title = soup.find("h1", class_="headline__text inline-placeholder")
+
     title_text = title.get_text()
     title_text = title_text.lstrip()
     # html 데이터에서 본문 텍스트만 뽑아오기
@@ -63,7 +71,7 @@ def start():
 
     # Papago API
     request_url = "https://openapi.naver.com/v1/papago/n2mt" #네이버 papago open api 사용
-    headers = {"X-Naver-Client-Id": "f7l3yl8HU0pLQGLkXWEw", "X-Naver-Client-Secret": "KntXXNjbCh"} # id, secret id
+    headers = {"X-Naver-Client-Id": "3A_IwsXDUdqRztyRLPPN", "X-Naver-Client-Secret": "MIlrd2xmFu"} # id, secret id
     params = {"source": "en", "target": "ko", "text": news_summarize} # 언어 Domain, Codomain, Text
     response = requests.post(request_url, headers=headers, data=params)
 
@@ -75,5 +83,8 @@ def start():
     response = requests.post(request_url, headers=headers, data=params)
     result = response.json()
     translate_title = result['message']['result']['translatedText']
+
+    translate_result = translate_result + '\n' + headline_link + '\n' + '\n#CNN ' +'#EBP '+'#번역'
+    translate_title = '[CNN] ' + translate_title
 
     return(translate_result, translate_title)

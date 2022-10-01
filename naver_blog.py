@@ -8,6 +8,8 @@ Date : 2022-09-26
 
 #pip install gensim==3.8.3
 #pip install webdriver_manager
+#pip install -U pyautoit
+
 
 import requests
 from bs4 import BeautifulSoup as BS
@@ -24,6 +26,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 import pyperclip
 import time
 from translate_content import start
+import autoit
+import os
 
 # 네이버 컨텐츠 마련
 translate_contents, translate_title = start()
@@ -78,14 +82,45 @@ elem = driver.find_element(By.XPATH, '//*[@id="post-admin"]/a[1]')
 elem.click()
 time.sleep(5)
 
-# 9. 내용 작성
+# 8. 내용 작성
 action.send_keys(translate_contents).perform()
+time.sleep(6)
 
-time.sleep(4)
-
-# 8. 제목 작성
+# 9. 제목 작성
 driver.find_element(By.XPATH, "//span[text()='제목']").click()
-time.sleep(1)
+time.sleep(3)
 action.send_keys(translate_title).perform()
 
 
+# 8-1. 사진 첨부
+driver.find_element(By.XPATH, '//button[contains(@class,"se-")]').click()
+time.sleep(5)
+handle = "[CLASS:#32770; TITLE:열기]"
+autoit.win_wait_active("열기", 3)
+img_path = "C:\\Users\\PSYDUCK\\PycharmProjects\\EBP_crawling\\pictures\\logo.PNG"
+autoit.control_send(handle, "Edit1", img_path)
+time.sleep(1)
+autoit.control_click(handle, "Button1")
+time.sleep(3)
+
+# 잡다한 sub panel 끄기
+driver.find_element(By.CLASS_NAME, "se-help-panel-close-button").click()
+time.sleep(3)
+
+# 10. 발행 버튼 클릭
+driver.find_element(By.XPATH, "//span[text()='발행']").click()
+time.sleep(2)
+
+# 11. 카테고리 버튼 클릭
+driver.find_element(By.XPATH, "//span[text()='골아픈 퀀트']").click()
+time.sleep(2)
+
+# 12. 번역 카테고리 선택
+driver.find_element(By.XPATH, "//span[text()='번역']").click()
+time.sleep(2)
+
+# 13. 발행
+driver.find_element(By.CLASS_NAME, "confirm_btn__Dv9du").click()
+time.sleep(10)
+
+driver.close()
