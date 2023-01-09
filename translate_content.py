@@ -46,7 +46,7 @@ def start():
 
     webpage = requests.get(headline_link)  # web
     soup = BS(webpage.content, "html.parser")
-
+    time.sleep(3)
     # CNN 본문내용 html class
     data = soup.find_all(class_= "zn-body__paragraph")
     data_text_all = ""
@@ -71,7 +71,7 @@ def start():
 
     # Papago API
     request_url = "https://openapi.naver.com/v1/papago/n2mt" #네이버 papago open api 사용
-    headers = {"X-Naver-Client-Id": "3A_IwsXDUdqRztyRLPPN", "X-Naver-Client-Secret": "MIlrd2xmFu"} # id, secret id
+    headers = {"X-Naver-Client-Id": "Q7UvwtjKdBk4K0X_ob36", "X-Naver-Client-Secret": "5l89mtr94u"} # id, secret id
     params = {"source": "en", "target": "ko", "text": news_summarize} # 언어 Domain, Codomain, Text
     response = requests.post(request_url, headers=headers, data=params)
 
@@ -86,5 +86,7 @@ def start():
 
     translate_result = translate_result + '\n' + headline_link + '\n' + '\n#CNN ' +'#EBP '+'#번역'
     translate_title = '[CNN] ' + translate_title
+
+    driver.close()
 
     return(translate_result, translate_title)

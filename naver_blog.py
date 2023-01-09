@@ -36,91 +36,98 @@ print(translate_contents)
 
 # 네이버 자동 로그인
 
-id = 'naver_id'
-password = 'naver_password'
+id = ''
+password = ''
 
 # 네이버 자동 로그인 가정
 
 # 셀레니움
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-action = ActionChains(driver)
+driver_1 = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+action = ActionChains(driver_1)
 
 # 1. 네이버 접속
 main_url = "http://naver.com"
 blog_url = "https://blog.naver.com/slayerzeroa"
-driver.get(main_url)
+driver_1.get(main_url)
 
 # 2. 로그인 버튼 클릭
-elem = driver.find_element(By.CLASS_NAME, 'link_login')
+elem = driver_1.find_element(By.CLASS_NAME, 'link_login')
 elem.click()
 
 # 3. id 복사 붙여넣기
-elem_id = driver.find_element(By.ID, 'id')
+elem_id = driver_1.find_element(By.ID, 'id')
 elem_id.click()
 pyperclip.copy(id)
 elem_id.send_keys(Keys.CONTROL, 'v')
 time.sleep(1)
 
 # 4. pw 복사 붙여넣기
-elem_pw = driver.find_element(By.ID, 'pw')
+elem_pw = driver_1.find_element(By.ID, 'pw')
 elem_pw.click()
 pyperclip.copy(password)
 elem_pw.send_keys(Keys.CONTROL, 'v')
 time.sleep(1)
 
 # 5. 로그인 버튼 클릭
-driver.find_element(By.ID, 'log.login').click()
+driver_1.find_element(By.ID, 'log.login').click()
 time.sleep(10)
 
 # 6. 블로그 접속
-driver.get(blog_url)
+driver_1.get(blog_url)
 # 프레임 이동
-driver.switch_to.frame("mainFrame")
+driver_1.switch_to.frame("mainFrame")
 
 # 7. 글쓰기 버튼 클릭
-elem = driver.find_element(By.XPATH, '//*[@id="post-admin"]/a[1]')
+elem = driver_1.find_element(By.XPATH, '//*[@id="post-admin"]/a[1]')
 elem.click()
 time.sleep(5)
 
-# 8. 내용 작성
-action.send_keys(translate_contents).perform()
-time.sleep(6)
-
-# 9. 제목 작성
-driver.find_element(By.XPATH, "//span[text()='제목']").click()
-time.sleep(3)
-action.send_keys(translate_title).perform()
-
-
 # 8-1. 사진 첨부
-driver.find_element(By.XPATH, '//button[contains(@class,"se-")]').click()
+driver_1.find_element(By.XPATH, '//button[contains(@class,"se-")]').click()
 time.sleep(5)
 handle = "[CLASS:#32770; TITLE:열기]"
-autoit.win_wait_active("열기", 3)
+time.sleep(5)
+autoit.win_active("열기")
+time.sleep(5)
 img_path = "C:\\Users\\PSYDUCK\\PycharmProjects\\EBP_crawling\\pictures\\logo.PNG"
 autoit.control_send(handle, "Edit1", img_path)
-time.sleep(1)
+time.sleep(5)
 autoit.control_click(handle, "Button1")
-time.sleep(3)
+time.sleep(5)
+
+# 8. 내용 작성
+action.send_keys("\n").perform()
+time.sleep(5)
+action.send_keys(translate_contents).perform()
+time.sleep(5)
+action.send_keys("\n").perform()
+time.sleep(5)
+
+# 9. 제목 작성
+driver_1.find_element(By.XPATH, "//span[text()='제목']").click()
+time.sleep(5)
+action.send_keys(translate_title).perform()
+time.sleep(5)
+
 
 # 잡다한 sub panel 끄기
-driver.find_element(By.CLASS_NAME, "se-help-panel-close-button").click()
-time.sleep(3)
+driver_1.find_element(By.CLASS_NAME, "se-help-panel-close-button").click()
+time.sleep(5)
 
 # 10. 발행 버튼 클릭
-driver.find_element(By.XPATH, "//span[text()='발행']").click()
+driver_1.find_element(By.XPATH, "//span[text()='발행']").click()
 time.sleep(2)
 
 # 11. 카테고리 버튼 클릭
-driver.find_element(By.XPATH, "//span[text()='골아픈 퀀트']").click()
+driver_1.find_element(By.XPATH, "//span[text()='골아픈 퀀트']").click()
 time.sleep(2)
 
 # 12. 번역 카테고리 선택
-driver.find_element(By.XPATH, "//span[text()='번역']").click()
+driver_1.find_element(By.XPATH, "//span[text()='번역']").click()
 time.sleep(2)
 
 # 13. 발행
-driver.find_element(By.CLASS_NAME, "confirm_btn__Dv9du").click()
+driver_1.find_element(By.CLASS_NAME, "confirm_btn__Dv9du").click()
 time.sleep(10)
 
-driver.close()
+driver_1.close()
