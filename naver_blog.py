@@ -1,8 +1,6 @@
 '''
 Author : slayerzeroa
-
 Date : 2022-09-26
-
 네이버 블로그 포스팅 자동화
 '''
 
@@ -23,16 +21,12 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 import pyperclip
 import time
 from translate_content import start
 import autoit
 import os
-
-# 네이버 컨텐츠 마련
-translate_contents, translate_title = start()
-print(translate_title)
-print(translate_contents)
 
 # 네이버 자동 로그인
 
@@ -47,7 +41,7 @@ action = ActionChains(driver_1)
 
 # 1. 네이버 접속
 main_url = "http://naver.com"
-blog_url = "https://blog.naver.com/slayerzeroa"
+blog_url = "https://blog.naver.com/gorapa_"
 driver_1.get(main_url)
 
 # 2. 로그인 버튼 클릭
@@ -95,6 +89,13 @@ time.sleep(5)
 autoit.control_click(handle, "Button1")
 time.sleep(5)
 
+
+# 네이버 컨텐츠 마련
+translate_contents, translate_title = start()
+print(translate_title)
+print(translate_contents)
+
+
 # 8. 내용 작성
 action.send_keys("\n").perform()
 time.sleep(5)
@@ -119,12 +120,12 @@ driver_1.find_element(By.XPATH, "//span[text()='발행']").click()
 time.sleep(2)
 
 # 11. 카테고리 버튼 클릭
-driver_1.find_element(By.XPATH, "//span[text()='골아픈 퀀트']").click()
+driver_1.find_element(By.XPATH, "//span[text()='뉴스번역']").click()
 time.sleep(2)
-
-# 12. 번역 카테고리 선택
-driver_1.find_element(By.XPATH, "//span[text()='번역']").click()
-time.sleep(2)
+#
+# # 12. 번역 카테고리 선택
+# driver_1.find_element(By.XPATH, "//span[text()='번역']").click()
+# time.sleep(2)
 
 # 13. 발행
 driver_1.find_element(By.CLASS_NAME, "confirm_btn__Dv9du").click()

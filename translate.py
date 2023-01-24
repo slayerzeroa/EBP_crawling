@@ -55,7 +55,7 @@ news_summarize = summarize(data_text_all, ratio=0.2, word_count = 350) #요약�
 
 request_url = "https://openapi.naver.com/v1/papago/n2mt" #네이버 papago open api 사용
 
-headers = {"X-Naver-Client-Id": "Q7UvwtjKdBk4K0X_ob36", "X-Naver-Client-Secret": "5l89mtr94u"} # id, secret id
+headers = {"X-Naver-Client-Id": "", "X-Naver-Client-Secret": ""} # id, secret id
 params = {"source": "en", "target": "ko", "text": news_summarize} # 번역 시작, 끝, 번역할 텍스트
 response = requests.post(request_url, headers=headers, data=params) # 정보 넣어주기
 

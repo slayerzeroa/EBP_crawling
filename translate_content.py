@@ -37,12 +37,12 @@ def start():
     driver.get(main_url)
     html = driver.page_source
     soup = BS(html, 'html.parser')
-    tags = soup.select('#us-zone-1 > div.l-container > div > div.column.zn__column--idx-1 > ul > li:nth-of-type(1) > article > div > div.cd__content > h3')[0].find_all('a')
+    tags = soup.select('.stack')[0].find_all('a')
     for tag in tags:
         link_list.append(tag['href'])
         link_title[tag['href']] = tag.text  # 링크-타이틀 매칭
 
-    headline_link = 'https://edition.cnn.com'+link_list[0]
+    headline_link = link_list[0]
 
     webpage = requests.get(headline_link)  # web
     soup = BS(webpage.content, "html.parser")
@@ -71,7 +71,7 @@ def start():
 
     # Papago API
     request_url = "https://openapi.naver.com/v1/papago/n2mt" #네이버 papago open api 사용
-    headers = {"X-Naver-Client-Id": "Q7UvwtjKdBk4K0X_ob36", "X-Naver-Client-Secret": "5l89mtr94u"} # id, secret id
+    headers = {"X-Naver-Client-Id": "", "X-Naver-Client-Secret": ""} # id, secret id
     params = {"source": "en", "target": "ko", "text": news_summarize} # 언어 Domain, Codomain, Text
     response = requests.post(request_url, headers=headers, data=params)
 
